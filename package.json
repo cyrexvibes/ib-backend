@@ -2,13 +2,13 @@
   "name": "ib-backend",
   "version": "1.0.0",
   "description": "Backend for login notifications",
-  "main": "server.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
-    "nodemailer": "^6.9.1"
+    "resend": "^3.2.0"
   }
 }
